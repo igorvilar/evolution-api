@@ -312,6 +312,17 @@ export class ChatwootService {
 
       if ((jid && jid.includes('@')) || !jid) {
         data['phone_number'] = `+${phoneNumber}`;
+        var numberBrazilFormat = data['phone_number'];
+        let numberBrazil = numberBrazilFormat.includes("+55");
+        if(numberBrazilFormat.length > 5 && numberBrazil) {
+          var codCountryAndDDD = numberBrazilFormat[0]+numberBrazilFormat[1]+numberBrazilFormat[2]+numberBrazilFormat[3]+numberBrazilFormat[4];
+          var numberPhone = numberBrazilFormat.replace(codCountryAndDDD,'');
+          if(numberPhone.length == 8){
+            numberPhone = "9"+numberPhone;
+            numberBrazilFormat = codCountryAndDDD + numberPhone;
+            data['phone_number'] = numberBrazilFormat;
+          }
+        }
       }
     } else {
       data = {
